@@ -1,4 +1,7 @@
 from typing import Union
+import os
+
+
 q_score = {33: 0, 34: 1, 35: 2, 36: 3, 37: 4, 38: 5, 39: 6, 40: 7, 41: 8, 42: 9, 43: 10,
            44: 11, 45: 12, 46: 13, 47: 14, 48: 15, 49: 16, 50: 17, 51: 18, 52: 19, 53: 20,
            54: 21, 55: 22, 56: 23, 57: 24, 58: 25, 59: 26, 60: 27, 61: 28, 62: 29, 63: 30,
@@ -87,3 +90,48 @@ This function filters reads based on phred-score
         else:
             seqs_qual_filtered[keys] = values
     return seqs_qual_filtered
+
+
+def file_to_dict(input_path: str) -> dict:
+    """
+    Converts text from file to dict
+    :param input_path: str - path to your fasta file. If you use Windows, add r before path
+    :return: dict - dictionary with key = sequence identifier, value = sequence and quality
+    """
+    seqs = {}
+    with open(input_path) as fastq_file:
+        values = []
+        for line in fastq_file.readlines():
+            if line.startswith('@') and 'BH:' in line:
+                seqs[line.strip()] = None
+            elif line.startswith('+'):
+                continue
+            else:
+                values.append(line.strip())
+        for i in range(0, len(values), 2):
+            seq_qual = tuple(values[i:i + 2])
+            for key in seqs.keys():
+                if seqs[key] is None:
+                    seqs[key] = seq_qual
+                    break
+    return seqs
+
+
+def output(input_path: str, seqs_filtered: dict, output_filename: str) -> None:
+    """
+    :param input_path: path to your fastq file. If you use Windows, add r before path
+    :param seqs_filtered: dictionary with fixed sequences
+    :param output_filename: str with filename to write
+    :return:
+    """
+    if not os.path.exists(os.path.dirname(os.path.join('fastq_filtrator_resuls', 'output_filename'))):
+        os.makedirs(os.path.dirname(os.path.join('fastq_filtrator_resuls', 'output_filename')))
+    original_text = []
+    with open(input_path) as fastq_file:
+        for line in fastq_file.readlines():
+            original_text.append(line.strip())
+    with open(os.path.join('fastq_filtrator_resuls', output_filename), mode='w') as output_file:
+        for i in range(0, len(original_text), 4):
+            if original_text[i] in seqs_filtered.keys():
+                text = '\n'.join(original_text[i:i+4])
+                output_file.write(text + '\n')

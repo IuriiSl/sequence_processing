@@ -26,8 +26,8 @@ The function ‘run_aminoacid_seq’ takes 1 amino acid sequence as input (both 
 - The argument **“record_type”** indicates the form in which you present your sequence. If you are using a three-letter sequence, specify **“record_type= 3”**. If you are using a one -letter sequence, specify **“record_type= 1”** (by default). 
 
 #### Example:
-```run_aminoacid_seq (‘ALAGLNGLU’, function = ‘count_protein_length’, record_type = 1)```
-```run_aminoacid_seq (‘glyvalala’, function = ‘count_protein_length’, record_type = 3)```
+```run_aminoacid_seq (‘ALAGLNGLU’, function = ‘count_protein_length’, record_type = 1)```                
+```run_aminoacid_seq (‘glyvalala’, function = ‘count_protein_length’, record_type = 3)```                       
 
 Also, if necessary specify a named argument **percent=True** (default False) for actions: determine_charge, determine_polarity (Look in the description of actions).
 
@@ -54,23 +54,23 @@ If you use a symbol that does not represent an amino acid, or wrong record type,
 
 #### Example:
 
-```run_aminoacid_seq (‘LLYdD’, function = ‘translate’, record_type = 1)```
-```run_aminoacid_seq (‘ALAGLYALA’, function = ‘translate’, record_type = 3)```
-```run_aminoacid_seq (‘LLYdD’, function = ‘count_protein_length’, record_type = 1)```
-```run_aminoacid_seq (‘ALAGLYALA’, function = ‘count_protein_length’, record_type = 3)```
-```run_aminoacid_seq (‘LLYdD’, function = ‘count_molecular_weight’, record_type = 1)```
+```run_aminoacid_seq (‘LLYdD’, function = ‘translate’, record_type = 1)```                  
+```run_aminoacid_seq (‘ALAGLYALA’, function = ‘translate’, record_type = 3)```                 
+```run_aminoacid_seq (‘LLYdD’, function = ‘count_protein_length’, record_type = 1)```                     
+```run_aminoacid_seq (‘ALAGLYALA’, function = ‘count_protein_length’, record_type = 3)```               
+```run_aminoacid_seq (‘LLYdD’, function = ‘count_molecular_weight’, record_type = 1)```                     
 
-```run_aminoacid_seq (‘alaglyala’, function = ‘determine_charge', record_type = 3, percent=True)```
-```run_aminoacid_seq (‘LLYdD’, function = ‘determine_charge', record_type = 1, percent=True)```
+```run_aminoacid_seq (‘alaglyala’, function = ‘determine_charge', record_type = 3, percent=True)```             
+```run_aminoacid_seq (‘LLYdD’, function = ‘determine_charge', record_type = 1, percent=True)```            
 
-```run_aminoacid_seq (‘alaglyala’, function = ‘determine_charge’, record_type = 3)```
-```run_aminoacid_seq (‘LLYdD’, function = ‘determine_charge', record_type = 1)```
+```run_aminoacid_seq (‘alaglyala’, function = ‘determine_charge’, record_type = 3)```           
+```run_aminoacid_seq (‘LLYdD’, function = ‘determine_charge', record_type = 1)```             
 
 ## Development team:
 
-**Iurii Slepov** - team leader, author of main, count, translate and summary functions
-**Veronika Vadekhina** - author of count_possible_number_of_disulfide_bonds, count_molecular_weight and convert_amino_acid_seq_to_dna functions
-**Yulia Nechaeva** - author of determine_charge and determine_polarity functions
+**Iurii Slepov** - team leader, author of main, count, translate and summary functions                
+**Veronika Vadekhina** - author of count_possible_number_of_disulfide_bonds, count_molecular_weight and convert_amino_acid_seq_to_dna functions    
+**Yulia Nechaeva** - author of determine_charge and determine_polarity functions                       
 
 ## run_dna_rna_tools
 
@@ -83,11 +83,11 @@ If you use a symbol that does not represent an amino acid, or wrong record type,
 
 ### Function launch
 To launch a function, you need to pass any number of arguments with DNA or RNA sequences containing 3 nuclуotides (str) in any register, and the name of the procedure to be executed (this is always the last argument, str). All specified elements must be separated by commas and spaces:
-
-``` run_dna_rna_tools('ATG', 'transcribe') # correct function launch ```
-``` run_dna_rna_tools('ATG', 'CTA', 'complement') # correct function launch ```
-``` run_dna_rna_tools('ATgcTA', 'complement') # uncorrect function launch ```
-``` run_dna_rna_tools('ATGCTA', complement) # uncorrect function launch ```
+                  
+``` run_dna_rna_tools('ATG', 'transcribe') # correct function launch ```                  
+``` run_dna_rna_tools('ATG', 'CTA', 'complement') # correct function launch ```                 
+``` run_dna_rna_tools('ATgcTA', 'complement') # uncorrect function launch ```                       
+``` run_dna_rna_tools('ATGCTA', complement) # uncorrect function launch ```                    
 
 If your sequence contains the nucleotides "U" and "T", the module cannot distinguish whether it is RNA or DNA. It will result to Error
 ``` run_dna_rna_tools('ATU', 'transcribe') # uncorrect function launch ```

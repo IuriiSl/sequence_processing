@@ -107,31 +107,35 @@ Performs the following procedures with nucleotide sequences:
         return additional_modules.run_dna_rna_tools.reverse_complement(sequence)
 
 
-def run_fastq(seqs: dict, gc_bounds: Union[int, float, tuple] = (0, 100),
-              length_bounds: Union[int, float, tuple] = (0, 2**32), quality_threshold: int = 0) -> dict:
+def run_fastq(input_path: str, gc_bounds: Union[int, float, tuple] = (0, 100),
+              length_bounds: Union[int, float, tuple] = (0, 2**32), quality_threshold: int = 0, output_filename: str = 'input_filename.fastq') -> dict:
     """
 This function filters reads based on the length of their nucleotide sequence, GC-content and phred33-score
-    :param seqs: dictionary consisting of fastq sequences
+    :param input_path: path to your file. If you work in windows, add 'r' before 'path'
     :param gc_bounds: GC-content interval (percentage) for filtering. Default = 0, 100
     :param length_bounds: length interval for filtering. Default = 0, 2**32
     :param quality_threshold: threshold value of average read quality for filtering. Default = 0
+    :param output_filename: name of file to output. Default: input_filename.fastq
     :return: dictionary consisting of filtered fastq sequences matching all filters
     """
     import additional_modules.run_fastq
+    if output_filename == 'input_filename.fastq':
+        output_filename = input_path.split('\\')[-1]
+    seqs = additional_modules.run_fastq.file_to_dict(input_path)
     for keys, values in seqs.items():
         sequence, quality = values
         for nucleotide in sequence:
             if nucleotide not in additional_modules.run_fastq.fastq_alphabet:
                 raise ValueError(f"{nucleotide} in {sequence} is not nucleotide")
     dict_bounds = additional_modules.run_fastq.bounds_convert(gc_bounds=gc_bounds, length_bounds=length_bounds,
-                                 quality_threshold=quality_threshold)
+                                                              quality_threshold=quality_threshold)
     seqs_gc_filtered = additional_modules.run_fastq.gc_filter(seqs, lower_gc_bound=dict_bounds['lower_gc_bound'],
-                                 upper_gc_bound=dict_bounds['upper_gc_bound'])
+                                                              upper_gc_bound=dict_bounds['upper_gc_bound'])
     seqs_len_filtered = additional_modules.run_fastq.length_filter(seqs, lower_length_bound=dict_bounds['lower_length_bound'],
-                                      upper_length_bound=dict_bounds['upper_length_bound'])
+                                                                   upper_length_bound=dict_bounds['upper_length_bound'])
     seqs_qual_filtered = additional_modules.run_fastq.quality_filter(seqs, quality_threshold=dict_bounds['quality_threshold'])
     seqs_filtered = {}
     for keys, values in seqs.items():
         if seqs_gc_filtered[keys] == 'T' and seqs_len_filtered[keys] == 'T' and seqs_qual_filtered[keys] == 'T':
             seqs_filtered[keys] = values
-    return seqs_filtered
+    return additional_modules.run_fastq.output(input_path, seqs_filtered, output_filename)

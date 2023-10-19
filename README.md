@@ -8,6 +8,8 @@ It contains:
          |this function performs some procedures with nucleotide sequences:
 * **run_fastsq**
          |this function filters reads based on the length of their nucleotide sequence, GC-content and phred33-score
+* **convert_multiline_fasta_to_oneline**
+	 |this function converts multiline fasta to one line
 
 To launch the module you need to download folder in your working directory and perform command ``` import sequence_processing.py ```
 
@@ -97,20 +99,20 @@ If your sequence contains the nucleotides "U" and "T", the module cannot disting
 Function filters reads based on the length of their nucleotide sequence, GC-content and phred33-score
 
 #### Arguments
-* *seqs*: dictionary consisting of fastq sequences
+* *input_path*: path to your file. If you work in windows, add 'r' before 'path'
 * *gc_bounds*: GC-content interval (percentage) for filtering. Default = 0, 100. If you pass one number as an argument, then it is considered that this is the upper bound.
 * *length_bounds*: length interval for filtering. Default = 0, 2**32. If you pass one number as an argument, then it is considered that this is the upper bound.
-* *quality_threshold*: threshold value of average read quality for filtering. Default = 0
-
+* *quality_threshold*: threshold value of average read quality for filtering. Default = 0            
+* *output_filename*: name of file to output. Default: input_filename.fastq           
 #### Return
-Dictionary consisting of filtered fastq reads matching all filters
+Dictionary consisting of filtered fastq reads matching all filters         
 
-#### Exmple
-``` run_fastq(dict, gc_bounds = 44.4) # correct launch```
-``` run_fastq(str, gc_bounds = 44.4) # uncorrect launch```
-``` run_fastq(dict, gc_bounds = 44.4, length_bounds = (0, 132)) # correct launch```
-``` run_fastq(dict, gc_bounds = 44.4, length_bounds = 38.53) # uncorrect launch```
-``` run_fastq(dict, gc_bounds = 44.4, length_bounds = (0, 1023), quality_threshold = (2,20)) # uncorrect launch```
+#### Example
+``` run_fastq(path_str, gc_bounds = 44.4) # correct launch```             
+``` run_fastq(dict, gc_bounds = 44.4) # uncorrect launch```            
+``` run_fastq(path_str, gc_bounds = 44.4, length_bounds = (0, 132), output_filename = str) # correct launch```     
+``` run_fastq(dict, gc_bounds = 44.4, length_bounds = 38.53) # uncorrect launch```          
+``` run_fastq(gc_bounds = 44.4, length_bounds = (0, 1023), quality_threshold = (2,20)) # uncorrect launch```        
 
 #### Troubleshooting:
 The function works with **5 nucleotide bases** in any register. If sequence in your read contains any other symbol function will stopped and show you **invalid character**. Please, fixed your sequence and try again.
@@ -118,7 +120,18 @@ The function works with **5 nucleotide bases** in any register. If sequence in y
 #### Developer:
 - Iurii Slepov
 
+## bio_files_processor.py:
+File contains convert_multiline_fasta_to_oneline function that converts fasta from multiline to oneline record type.    
 
+####Arguments:     
+* *input_fasta*: str - path to your file. If you use Windows, add r before path           
+* *output_fasta*: str - name of your file or path to it. Default 'input_fasta_name_parsed.fasta'       
+
+#### Example for Windows:
+``` convert_multiline_fasta_to_oneline(r"C:\Users\User\example_data\example_multiline_fasta.fasta") ```     
+
+#### Developer:
+- Iurii Slepov 
 
 
 

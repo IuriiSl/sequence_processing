@@ -1,4 +1,6 @@
 from typing import Union
+
+
 def run_aminoacid_seq(sequence: str, function: str = 'summary', record_type: int = 1, percent: bool = False):
     """
     Performs the following list of operations:
@@ -47,28 +49,28 @@ def run_aminoacid_seq(sequence: str, function: str = 'summary', record_type: int
     if function == 'count':
         return additional_modules.run_aminoacid_seq.count(sequence, record_type)
     elif function == 'translate':
-        return translate(sequence, record_type)
+        return additional_modules.run_aminoacid_seq.translate(sequence, record_type)
     elif function == 'summary':
         return additional_modules.run_aminoacid_seq.summary(sequence, record_type, percent)
     elif function == 'determine_polarity':
         if record_type == 3:
-            return additional_modules.run_aminoacid_seq.determine_polarity(translate(sequence, record_type), percent)
+            return additional_modules.run_aminoacid_seq.determine_polarity(additional_modules.run_aminoacid_seq.translate(sequence, record_type), percent)
         return additional_modules.run_aminoacid_seq.determine_polarity(sequence, percent)
     elif function == 'determine_charge':
         if record_type == 3:
-            return additional_modules.run_aminoacid_seq.determine_charge(translate(sequence, record_type), percent)
+            return additional_modules.run_aminoacid_seq.determine_charge(additional_modules.run_aminoacid_seq.translate(sequence, record_type), percent)
         return additional_modules.run_aminoacid_seq.determine_charge(sequence, percent)
     elif function == 'count_possible_number_of_disulfide_bonds':
         if record_type == 3:
-            return additional_modules.run_aminoacid_seq.count_possible_number_of_disulfide_bonds(translate(sequence, record_type))
+            return additional_modules.run_aminoacid_seq.count_possible_number_of_disulfide_bonds(additional_modules.run_aminoacid_seq.translate(sequence, record_type))
         return additional_modules.run_aminoacid_seq.count_possible_number_of_disulfide_bonds(sequence)
     elif function == 'count_molecular_weight':
         if record_type == 3:
-            return additional_modules.run_aminoacid_seq.count_molecular_weight(translate(sequence, record_type))
+            return additional_modules.run_aminoacid_seq.count_molecular_weight(additional_modules.run_aminoacid_seq.translate(sequence, record_type))
         return additional_modules.run_aminoacid_seq.count_molecular_weight(sequence)
     elif function == 'convert_amino_acid_seq_to_dna':
         if record_type == 3:
-            return additional_modules.run_aminoacid_seq.convert_amino_acid_seq_to_dna(translate(sequence, record_type))
+            return additional_modules.run_aminoacid_seq.convert_amino_acid_seq_to_dna(additional_modules.run_aminoacid_seq.translate(sequence, record_type))
         return additional_modules.run_aminoacid_seq.convert_amino_acid_seq_to_dna(sequence)
 
 

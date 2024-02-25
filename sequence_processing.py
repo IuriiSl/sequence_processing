@@ -56,7 +56,7 @@ class BiologicalSequence(ABC):
 class SequenceFunction(BiologicalSequence):
     alphabet = ()
 
-    def __init__(self, seq: str):
+    def __init__(self, seq: str) -> None:
         self.seq = seq
 
     def __len__(self) -> int:
@@ -73,15 +73,16 @@ class SequenceFunction(BiologicalSequence):
         return str(self.seq)
 
     def check_alphabet(self) -> bool:
-        return set(self.seq) == set(self.alphabet)
+        return set(self.seq).issubset(set(self.alphabet))
 
 
 class NucleicAcidSequence(SequenceFunction):
-    def __init__(self, seq: str) -> None:
+    complement_dict = {}
+    def __init__(self, seq: str):
         super().__init__(seq)
 
     def complement(self) -> str:
-        complement_seq = self.seq.translate(str.maketrans("ATGCU", "TACGA"))
+        complement_seq = self.seq.translate(str.maketrans(self.complement_dict))
         return complement_seq
 
     def gc_content(self) -> Union[int, float]:
@@ -91,8 +92,9 @@ class NucleicAcidSequence(SequenceFunction):
 
 class DNASequence(NucleicAcidSequence):
     alphabet = ('A', 'T', 'G', 'C')
+    complement_dict = {'A': 'T', 'T': 'A', 'G': 'C', 'C': 'G'}
 
-    def __init__(self, seq: str) -> None:
+    def __init__(self, seq: str):
         super().__init__(seq)
 
     def check_alphabet(self):
@@ -108,6 +110,7 @@ class DNASequence(NucleicAcidSequence):
 
 class RNASequence(NucleicAcidSequence):
     alphabet = ('A', 'U', 'G', 'C')
+    complement_dict = {'A': 'U', 'U': 'A', 'G': 'C', 'C': 'G'}
 
     def __init__(self, seq: str) -> None:
         super().__init__(seq)
@@ -135,5 +138,5 @@ class AminoAcidSequence(SequenceFunction):
         return super().check_alphabet()
 
     def count_molecular_weight(self, amino_acid_weights: dict) -> int:
-        molecular_weight = sum(amino_acid_weights.get(aa, 0) for aa in self.seq)
+        molecular_weight = sum(self.amino_acid_weights.get(aa, 0) for aa in self.seq)
         return molecular_weight

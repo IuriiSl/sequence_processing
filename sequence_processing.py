@@ -14,8 +14,8 @@ def gc_filter(record, lower_gc_bound: float, upper_gc_bound: float):
 
 
 def quality_filter(record, quality_threshold: Union[int, float] = 0):
-    if (quality_threshold < sum(record.letter_annotations["phred_quality"]) /
-            len(record.letter_annotations["phred_quality"])):
+    if (quality_threshold < sum(record.letter_annotations['phred_quality']) /
+            len(record.letter_annotations['phred_quality'])):
         return record
 
 
@@ -23,16 +23,16 @@ def filter_fastq(file_path: str, output_file: str = 'input_fasta_name_filter.fas
                  lower_gc_bound: int = 0, upper_gc_bound: int = 30,
                  lower_length_bound: int = 0, upper_length_bound: int = 2**32,
                  quality_threshold: Union[int, float] = 0) -> None:
-    records = SeqIO.parse(file_path, "fastq")
+    records = SeqIO.parse(file_path, 'fastq')
     if output_file == 'input_fasta_name_filter.fastq':
         output_filename = file_path.split('\\')[-1]
         output_file = output_filename.replace('.fastq', '_filter.fastq')
-    with open(output_file, "w") as output:
+    with open(output_file, 'w') as output:
         for record in records:
             if length_filter(record, lower_length_bound, upper_length_bound) and \
                     gc_filter(record, lower_gc_bound, upper_gc_bound) and \
                     quality_filter(record, quality_threshold):
-                SeqIO.write(record, output, "fastq")
+                SeqIO.write(record, output, 'fastq')
 
 
 class BiologicalSequence(ABC):
@@ -67,7 +67,7 @@ class SequenceFunction(BiologicalSequence):
         if 0 <= item < len(self.seq):
             return self.seq[item]
         else:
-            raise IndexError("Your index is incorrect")
+            raise IndexError('Your index is incorrect')
 
     def __str__(self) -> str:
         return str(self.seq)
@@ -104,7 +104,7 @@ class DNASequence(NucleicAcidSequence):
         return super().complement()
 
     def transcribe(self) -> str:
-        transcribed_seq = self.seq.translate(str.maketrans("ATGC", "UACG"))
+        transcribed_seq = self.seq.translate(str.maketrans('ATGC', 'UACG'))
         return transcribed_seq
 
 

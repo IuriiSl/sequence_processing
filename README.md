@@ -19,7 +19,7 @@ This module contains the learning results of the **Python** course at the **Bioi
 
 ### `custom_random_forest.py`
 
-* Custom `RandomForestClassifier` with the ability to to determine the number of processes running in parallel
+* Custom `RandomForestClassifier` with the ability to determine the number of processes running in parallel
 
 ### `test_bioinformatics_box.py`
 
